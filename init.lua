@@ -165,6 +165,19 @@ vim.opt.confirm = true
 --  See `:help vim.keymap.set()`
 -- NOTE: My own keymaps are here
 vim.keymap.set('n', '<C-s>', '<cmd>:w<CR>')
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<leader>cd', function()
+  vim.cmd 'lcd %:p:h' -- cd to current file dir
+  local git_root = vim.system({ 'git', 'rev-parse', '--show-toplevel' }):wait() -- find git root
+  if git_root.code == 0 then
+    local root = git_root.stdout:gsub('\n', '') -- Remove trailing newline
+    vim.cmd('lcd ' .. vim.fn.fnameescape(root)) -- cd to git root
+    print('Changed directory to: ' .. root)
+  else
+    print 'Not in a Git repository'
+  end
+end, { desc = 'Change Working [D]irectory to Git Root' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
