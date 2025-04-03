@@ -169,6 +169,10 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<leader>cd', function()
   vim.cmd 'lcd %:p:h' -- cd to current file dir
+  print('Changed directory to: ' .. vim.fn.getcwd())
+end, { desc = 'Change Working [D]irectory' })
+vim.keymap.set('n', '<leader>gd', function()
+  vim.cmd 'lcd %:p:h' -- cd to current file dir
   local git_root = vim.system({ 'git', 'rev-parse', '--show-toplevel' }):wait() -- find git root
   if git_root.code == 0 then
     local root = git_root.stdout:gsub('\n', '') -- Remove trailing newline
@@ -178,6 +182,10 @@ vim.keymap.set('n', '<leader>cd', function()
     print 'Not in a Git repository'
   end
 end, { desc = 'Change Working [D]irectory to Git Root' })
+
+-- @NOTE: My own user commands are here
+vim.api.nvim_create_user_command('Wq', 'wq', {})
+vim.api.nvim_create_user_command('WQ', 'wq', {})
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
