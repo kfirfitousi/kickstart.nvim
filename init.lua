@@ -382,7 +382,6 @@ require('lazy').setup({
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
-    branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -437,7 +436,7 @@ require('lazy').setup({
         pickers = {
           find_files = {
             hidden = true,
-            file_ignore_patterns = { '.git/', 'node_modules/', '.expo/' },
+            file_ignore_patterns = { '.git/', 'node_modules/', '.expo/', 'ios/', 'android/' },
           },
         },
         extensions = {
@@ -796,7 +795,16 @@ require('lazy').setup({
           lsp_format = lsp_format_opt,
         }
       end,
+      formatters = {
+        biome = {
+          require_cwd = true,
+        },
+      },
       formatters_by_ft = {
+        javascript = { 'biome', 'biome-organize-imports' },
+        javascriptreact = { 'biome', 'biome-organize-imports' },
+        typescript = { 'biome', 'biome-organize-imports' },
+        typescriptreact = { 'biome', 'biome-organize-imports' },
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
